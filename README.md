@@ -23,7 +23,6 @@
     
     <h2>How has your work on this project evolved the way you write programs that are maintainable, readable, and adaptable?</h2>
     <p>I learned to write more maintainable code by using clear naming conventions, adding inline comments, and modularizing my code. This experience emphasized the importance of writing adaptable code that can easily accommodate future changes.</p>
-    ![output](https://github.com/babatopeayeni/ABCU-advisingAssistanceSoftware/assets/133984506/0cc17ea2-3ee9-475e-acf8-e02bf2dafc37)
-
+    
 </body>
 </html>
