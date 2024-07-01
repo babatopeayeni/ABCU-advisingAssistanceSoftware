@@ -1,0 +1,262 @@
+Pseudocode for CS 300 Project One
+Task 1: Open the File, Read the Data, Parse Each Line, and Check for Formatting Errors
+FUNCTION readFileAndParse(fileName)
+    OPEN file fileName FOR reading
+    IF file IS NOT open
+        PRINT "Error: Cannot open file"
+        RETURN
+
+    INITIALIZE coursesList AS an empty list
+    SET lineNumber TO 1
+
+    WHILE NOT end of file
+        READ line FROM file
+        SET parsedLine TO parseLine(line, lineNumber)
+        IF parsedLine IS NOT null
+            APPEND parsedLine TO coursesList
+        ELSE
+            PRINT "Formatting error on line " + lineNumber
+        INCREMENT lineNumber
+
+    CLOSE file
+    RETURN coursesList
+END FUNCTION
+
+FUNCTION parseLine(line, lineNumber)
+    SPLIT line BY comma INTO parts
+    IF LENGTH(parts) < 3
+        PRINT "Error: Invalid format on line " + lineNumber
+        RETURN null
+
+    SET courseCode TO parts[0]
+    SET courseTitle TO parts[1]
+    SET prerequisites TO SPLIT parts[2] BY semicolon
+
+    CREATE newCourse AS new Course(courseCode, courseTitle, prerequisites)
+    RETURN newCourse
+END FUNCTION
+
+Task 2: Create Course Objects
+CLASS Course
+    DECLARE courseCode AS STRING
+    DECLARE courseTitle AS STRING
+    DECLARE prerequisites AS LIST OF STRING
+
+    CONSTRUCTOR Course(courseCode, courseTitle, prerequisites)
+        SET this.courseCode TO courseCode
+        SET this.courseTitle TO courseTitle
+        SET this.prerequisites TO prerequisites
+    END CONSTRUCTOR
+END CLASS
+
+Task 3: Print Course Information and Prerequisites
+FUNCTION printCourses(coursesList)
+    SORT coursesList BY courseCode
+
+    FOR EACH course IN coursesList
+        PRINT "Course Code: " + course.courseCode
+        PRINT "Course Title: " + course.courseTitle
+        IF LENGTH(course.prerequisites) > 0
+            PRINT "Prerequisites: " + JOIN(course.prerequisites, ", ")
+        ELSE
+            PRINT "Prerequisites: None"
+        PRINT "--------------------------------"
+END FUNCTION
+
+FUNCTION printCourseDetails(coursesList, courseCode)
+    SET courseFound TO FALSE
+
+    FOR EACH course IN coursesList
+        IF course.courseCode EQUALS courseCode
+            PRINT "Course Code: " + course.courseCode
+            PRINT "Course Title: " + course.courseTitle
+            IF LENGTH(course.prerequisites) > 0
+                PRINT "Prerequisites: " + JOIN(course.prerequisites, ", ")
+            ELSE
+                PRINT "Prerequisites: None"
+            SET courseFound TO TRUE
+            BREAK
+
+    IF NOT courseFound
+        PRINT "Course not found: " + courseCode
+END FUNCTION
+
+Task 4: Pseudocode for a Menu
+
+FUNCTION displayMenu()
+    PRINT "Menu:"
+    PRINT "1. Load course data from file"
+    PRINT "2. Print all courses (alphanumerically ordered)"
+    PRINT "3. Print course details"
+    PRINT "9. Exit"
+    PRINT "Enter your choice: "
+END FUNCTION
+
+FUNCTION main()
+    DECLARE coursesList AS EMPTY LIST
+    DECLARE choice AS INTEGER
+
+    WHILE TRUE
+        CALL displayMenu()
+        READ choice
+
+        IF choice EQUALS 1
+            PRINT "Enter the file name to load: "
+            READ fileName
+            SET coursesList TO readFileAndParse(fileName)
+            IF LENGTH(coursesList) > 0
+                PRINT "Course data loaded successfully."
+            ELSE
+                PRINT "No data loaded. Check for errors in the file."
+        ELSE IF choice EQUALS 2
+            IF LENGTH(coursesList) > 0
+                CALL printCourses(coursesList)
+            ELSE
+                PRINT "Course data is not loaded. Please load data first."
+        ELSE IF choice EQUALS 3
+            IF LENGTH(coursesList) > 0
+                PRINT "Enter the course code: "
+                READ courseCode
+                CALL printCourseDetails(coursesList, courseCode)
+            ELSE
+                PRINT "Course data is not loaded. Please load data first."
+        ELSE IF choice EQUALS 9
+            PRINT "Exiting the program. Goodbye!"
+            BREAK
+        ELSE
+            PRINT "Invalid choice. Please try again."
+    END WHILE
+END FUNCTION
+
+FUNCTION readFileAndParse(fileName)
+    OPEN file fileName FOR reading
+    IF file IS NOT open
+        PRINT "Error: Cannot open file"
+        RETURN EMPTY LIST
+
+    INITIALIZE coursesList AS an empty list
+    SET lineNumber TO 1
+
+    WHILE NOT end of file
+        READ line FROM file
+        SET parsedLine TO parseLine(line, lineNumber)
+        IF parsedLine IS NOT null
+            APPEND parsedLine TO coursesList
+        ELSE
+            PRINT "Formatting error on line " + lineNumber
+        INCREMENT lineNumber
+
+    CLOSE file
+    RETURN coursesList
+END FUNCTION
+
+FUNCTION parseLine(line, lineNumber)
+    SPLIT line BY comma INTO parts
+    IF LENGTH(parts) < 3
+        PRINT "Error: Invalid format on line " + lineNumber
+        RETURN null
+
+    SET courseCode TO parts[0]
+    SET courseTitle TO parts[1]
+    SET prerequisites TO SPLIT parts[2] BY semicolon
+
+    CREATE newCourse AS new Course(courseCode, courseTitle, prerequisites)
+    RETURN newCourse
+END FUNCTION
+
+CLASS Course
+    DECLARE courseCode AS STRING
+    DECLARE courseTitle AS STRING
+    DECLARE prerequisites AS LIST OF STRING
+
+    CONSTRUCTOR Course(courseCode, courseTitle, prerequisites)
+        SET this.courseCode TO courseCode
+        SET this.courseTitle TO courseTitle
+        SET this.prerequisites TO prerequisites
+    END CONSTRUCTOR
+END CLASS
+
+FUNCTION printCourses(coursesList)
+    SORT coursesList BY courseCode
+
+    FOR EACH course IN coursesList
+        PRINT "Course Code: " + course.courseCode
+        PRINT "Course Title: " + course.courseTitle
+        IF LENGTH(course.prerequisites) > 0
+            PRINT "Prerequisites: " + JOIN(course.prerequisites, ", ")
+        ELSE
+            PRINT "Prerequisites: None"
+        PRINT "--------------------------------"
+END FUNCTION
+
+FUNCTION printCourseDetails(coursesList, courseCode)
+    SET courseFound TO FALSE
+
+    FOR EACH course IN coursesList
+        IF course.courseCode EQUALS courseCode
+            PRINT "Course Code: " + course.courseCode
+            PRINT "Course Title: " + course.courseTitle
+            IF LENGTH(course.prerequisites) > 0
+                PRINT "Prerequisites: " + JOIN(course.prerequisites, ", ")
+            ELSE
+                PRINT "Prerequisites: None"
+            SET courseFound TO TRUE
+            BREAK
+
+    IF NOT courseFound
+        PRINT "Course not found: " + courseCode
+END FUNCTION
+
+Task 5: Pseudocode for Printing Courses in Alphanumeric Order
+Vector Data Structure
+FUNCTION printCoursesVector(coursesVector)
+    SORT coursesVector BY courseCode
+
+    FOR EACH course IN coursesVector
+        PRINT "Course Code: " + course.courseCode
+        PRINT "Course Title: " + course.courseTitle
+        IF LENGTH(course.prerequisites) > 0
+            PRINT "Prerequisites: " + JOIN(course.prerequisites, ", ")
+        ELSE
+            PRINT "Prerequisites: None"
+        PRINT "--------------------------------"
+END FUNCTION
+
+Hash Table Data Structure
+FUNCTION printCoursesHashTable(coursesHashTable)
+    DECLARE courseCodes AS EMPTY LIST
+
+    FOR EACH courseCode IN coursesHashTable KEYS
+        APPEND courseCode TO courseCodes
+
+    SORT courseCodes
+
+    FOR EACH courseCode IN courseCodes
+        SET course TO coursesHashTable[courseCode]
+        PRINT "Course Code: " + course.courseCode
+        PRINT "Course Title: " + course.courseTitle
+        IF LENGTH(course.prerequisites) > 0
+            PRINT "Prerequisites: " + JOIN(course.prerequisites, ", ")
+        ELSE
+            PRINT "Prerequisites: None"
+        PRINT "--------------------------------"
+END FUNCTION
+
+Tree Data Structure
+FUNCTION printCoursesTree(coursesTree)
+    FUNCTION inOrderTraversal(node)
+        IF node IS NULL
+            RETURN
+        CALL inOrderTraversal(node.left)
+        PRINT "Course Code: " + node.course.courseCode
+        PRINT "Course Title: " + node.course.courseTitle
+        IF LENGTH(node.course.prerequisites) > 0
+            PRINT "Prerequisites: " + JOIN(node.course.prerequisites, ", ")
+        ELSE
+            PRINT "Prerequisites: None"
+        PRINT "--------------------------------"
+        CALL inOrderTraversal(node.right)
+    END FUNCTION
+
+    CALL inOrderTraversal(coursesTree.root)
+END FUNCTION
